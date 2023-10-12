@@ -15,7 +15,7 @@ from haystack.pipelines import Pipeline
 # Load environment variables (if any)
 load_dotenv("../.env")
 load_dotenv()
-MY_API_KEY = "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"
+MY_API_KEY = ""
 
 # Initialize Haystack's QA system
 document_store = InMemoryDocumentStore(use_bm25=True)
