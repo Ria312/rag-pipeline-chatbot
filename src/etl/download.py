@@ -72,4 +72,3 @@ if __name__ == "__main__":
     
     # Clean json data
     clean_json = html_cleaning(json_data)
-
