@@ -85,7 +85,7 @@ prompt_template = PromptTemplate(prompt = """"Answer the following query based o
                                                 Answer: 
                                             """,
                                             output_parser=AnswerParser())
-openai_key = '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'
+openai_key = ''
 prompt_node = PromptNode(model_name_or_path = "gpt-4",
                             api_key = openai_key,
                             default_prompt_template = prompt_template,
