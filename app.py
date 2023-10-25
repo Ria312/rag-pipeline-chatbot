@@ -16,7 +16,7 @@ from haystack.pipelines import Pipeline
 from haystack.document_stores import FAISSDocumentStore
 from haystack.nodes import EmbeddingRetriever, PreProcessor, TextConverter
 
-load_dotenv("../.env")
+load_dotenv(".env")
 path = 'countrytravelinfo.json'
 with open(path) as f:
     data = json.loads(f.read())
@@ -76,7 +76,7 @@ indexing_pipeline4.add_node(component=preprocessor, name="PreProcessor", inputs=
 retriever = EmbeddingRetriever(document_store=document_store, embedding_model="sentence-transformers/multi-qa-mpnet-base-dot-v1")
 indexing_pipeline4.add_node(component=retriever, name="EmbeddingRetriever", inputs=["PreProcessor"])
 indexing_pipeline4.add_node(component=document_store, name="document_store", inputs=['EmbeddingRetriever'])
-doc_dir = '/Users/ria.gupta/hack-chat/doc'
+doc_dir = './doc'
 files_to_index = [doc_dir+ "/" + f for f in os.listdir(doc_dir)]
 indexing_pipeline4.run_batch(file_paths=files_to_index)
 prompt_template = PromptTemplate(prompt = """"Answer the following query based on the provided context. If the context does

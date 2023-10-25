@@ -4,8 +4,6 @@ FROM python:3.10
 # Set the working directory
 WORKDIR /app
 
-
-
 # Copy the poetry files
 COPY pyproject.toml poetry.lock /app/
 RUN ls

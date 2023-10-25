@@ -21,6 +21,7 @@ chainlit = "^0.7.0"
 pandas = "2.0.3"
 datasets = "^2.14.5"
 faiss-cpu = "^1.7.4"
+torch = ">=2.0.0, !=2.0.1, !=2.1.0"
 
 
 [build-system]
