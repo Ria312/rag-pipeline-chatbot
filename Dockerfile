@@ -14,7 +14,7 @@ RUN pip install poetry
 
 # Install project dependencies
 RUN poetry lock
-#RUN poetry install
+RUN poetry install
 
 # Copy the .env file
 COPY .env .env
@@ -22,12 +22,12 @@ COPY .env .env
 # Copy the rest of the application code
 COPY . .
 
-RUN poetry add chainlit
+# RUN poetry add chainlit
 # # Extract data for app
 # RUN poetry run ploomber build
 
 # Expose the port that the app runs on
-# EXPOSE 8000
+EXPOSE 80
 
 COPY chainlit.md chainlit.md
 
