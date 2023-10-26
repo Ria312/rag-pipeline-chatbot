@@ -8,7 +8,7 @@ WORKDIR /app
 COPY pyproject.toml poetry.lock /app/
 RUN ls
 # Install poetry
-RUN pip install poetry
+RUN pip install poetry "farm-haystack[faiss]"
 
 # Install project dependencies
 RUN poetry lock
