@@ -21,11 +21,13 @@ path = 'countrytravelinfo.json'
 with open(path) as f:
     data = json.loads(f.read())
 
+print("Reading data")
 sample_data = data[10]['entry_exit_requirements']
 cleaned_soup = BeautifulSoup(sample_data, "html.parser" )
 soup_text = cleaned_soup.get_text(separator = ' ', strip = True)
 clean_text_again = unicodedata.normalize("NFKD",soup_text)
 
+print("-----\n")
 def html_cleaning(json_file):
     """ Remove html tags from text
             input: json data
@@ -56,13 +58,14 @@ def html_cleaning(json_file):
             
     return json_file
 
+print("indexing pipeline")
 html_cleaned_dataset = html_cleaning(data)
 df = pd.DataFrame(html_cleaned_dataset)
 document_store = FAISSDocumentStore()
 document_store.delete_documents()
 indexing_pipeline4 = Pipeline()
 text_converter = TextConverter()
-
+print("-----\n")
 indexing_pipeline4.add_node(component=text_converter, name="TextConverter", inputs=["File"])
 preprocessor = PreProcessor(
     clean_empty_lines=True,
@@ -86,6 +89,8 @@ prompt_template = PromptTemplate(prompt = """"Answer the following query based o
                                                 Answer: 
                                             """,
                                             output_parser=AnswerParser())
+
+print("Init promot node")
 openai_key = os.getenv("OPENAPI_KEY")
 prompt_node = PromptNode(model_name_or_path = "gpt-4",
                             api_key = openai_key,
@@ -95,6 +100,8 @@ prompt_node = PromptNode(model_name_or_path = "gpt-4",
 query_pipeline = Pipeline()
 query_pipeline.add_node(component=retriever, name="Retriever", inputs=["Query"])
 query_pipeline.add_node(component=prompt_node, name="PromptNode", inputs=["Retriever"])
+print("-----\n")
+
 @cl.on_message
 async def main(message: str):
     # Use the pipeline to get a response
