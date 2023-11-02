@@ -19,7 +19,7 @@ load_dotenv(".env")
 index_path = 'my_faiss_index.faiss'
 config_path = 'my_faiss_index.json'
 path = 'countrytravelinfo.json'
-with open(path) as f:
+with open(path, encoding="utf8") as f:
     data = json.loads(f.read())
 
 print("Reading data")
@@ -64,7 +64,12 @@ html_cleaned_dataset = html_cleaning(data)
 df = pd.DataFrame(html_cleaned_dataset)
 #document_store = FAISSDocumentStore(faiss_index_factory_str="Flat")
 #document_store.delete_documents()
-document_store = FAISSDocumentStore.load(index_path=index_path, config_path=config_path)
+
+if os.path.exists(index_path):
+    document_store = FAISSDocumentStore.load()
+else:
+    document_store = FAISSDocumentStore()
+#document_store = FAISSDocumentStore.load(index_path=index_path, config_path=config_path)
 indexing_pipeline4 = Pipeline()
 text_converter = TextConverter()
 print("-----\n")
@@ -107,9 +112,9 @@ query_pipeline.add_node(component=prompt_node, name="PromptNode", inputs=["Retri
 print("-----\n")
 
 @cl.on_message
-async def main(message: str):
+async def main(message: cl.Message):
     # Use the pipeline to get a response
-    output = query_pipeline.run(query=message)
+    output = query_pipeline.run(query=message.content)
 
     # Create a Chainlit message with the response
     response = output['answers'][0].answer
